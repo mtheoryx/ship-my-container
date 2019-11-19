@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 // import App from './App';
 // @TODO: Use styled components
 import "./index.css";
+import calculateWinner from "./win-condition.js";
 
 // @TODO: Move it outta here
 const Square = ({ value, onClick }) => (
@@ -40,7 +41,16 @@ class Board extends React.Component {
     });
   }
   render() {
-    const status = `Next player: ${this.state.xIsNext ? "X" : "O"}`;
+    const winner = calculateWinner(this.state.squares);
+    let status;
+
+    if (winner) {
+      // If we are done and have a winner
+      status = `Winner: ${winner}`;
+    } else {
+      // If we are still playing
+      status = `Next player: ${this.state.xIsNext ? "X" : "O"}`;
+    }
 
     return (
       <div>
