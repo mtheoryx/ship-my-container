@@ -3,7 +3,7 @@ describe("First app visit", () => {
     cy.visit("localhost:3000");
   });
   it("Should have no selected squares", () => {
-    cy.get(".game-board")
+    cy.get("#game-board")
       .find(".square")
       .each(square => {
         cy.get(square).should("have.text", "");
@@ -14,28 +14,44 @@ describe("First app visit", () => {
     cy.get(".status").should("contain", "X");
   });
   it("should make a move as X, and see a square marked with X", () => {
-    cy.get(
-      ".game-board > :nth-child(1) > :nth-child(2) > :nth-child(3)"
-    ).click();
+    /**
+    [ ][ ][x]
+    [ ][ ][ ]
+    [ ][ ][ ]
+    */
+    const targetSquare = cy.get("#game-board").find("#2");
+    targetSquare.click();
     // Assert that the thing has an X
-    cy.get(
-      ".game-board > :nth-child(1) > :nth-child(2) > :nth-child(3)"
-    ).should("have.text", "X");
+    targetSquare.should("have.text", "X");
     // Assert that the thing does not have an O
-    cy.get(
-      ".game-board > :nth-child(1) > :nth-child(2) > :nth-child(3)"
-    ).should("not.have.text", "O");
+    targetSquare.should("not.have.text", "O");
   });
 });
 describe("Taking turns", () => {
+  /**
+    [ ][ ][x]
+    [ ][ ][ ]
+    [ ][ ][ ]
+    */
   it("Should be expecting player 0 to make a move", () => {
     cy.get(".status").should("not.contain", "X");
     cy.get(".status").should("contain", "O");
   });
   it("Should click the middle square as O, and get marked", () => {
-    cy.get(":nth-child(3) > :nth-child(2)").click();
-    cy.get(":nth-child(3) > :nth-child(2)").should("have.text", "O");
-    cy.get(":nth-child(3) > :nth-child(2)").should("not.have.text", "X");
+    /**
+    [ ][ ][x]
+    [ ][O][ ]
+    [ ][ ][ ]
+    */
+    cy.get("#game-board")
+      .find("#4")
+      .click();
+    cy.get("#game-board")
+      .find("#4")
+      .should("have.text", "O");
+    cy.get("#game-board")
+      .find("#4")
+      .should("not.have.text", "X");
   });
   it("Should now see player X is next in line", () => {
     cy.get(".status").should("not.contain", "O");
@@ -46,22 +62,34 @@ describe("Taking turns", () => {
 describe("Winning the game", () => {
   it("Visits and start the game", () => {
     cy.visit("localhost:3000");
+
+    // @TODO: Why does it not like this var?
+    // const board = cy.get("#game-board");
+
     // X takes top right
-    cy.get(
-      ".game-board > :nth-child(1) > :nth-child(2) > :nth-child(3)"
-    ).click();
+    cy.get("#game-board")
+      .find("#2")
+      .click();
     // O Take middle
-    cy.get(":nth-child(3) > :nth-child(2)").click();
+    cy.get("#game-board")
+      .find("#4")
+      .click();
     // X takes middle right
-    cy.get(":nth-child(3) > :nth-child(3)").click();
+    cy.get("#game-board")
+      .find("#5")
+      .click();
     // O takes middle left
-    cy.get(":nth-child(3) > :nth-child(1)").click();
+    cy.get("#game-board")
+      .find("#3")
+      .click();
     // X takes bottom right
-    cy.get(":nth-child(4) > :nth-child(3)").click();
+    cy.get("#game-board")
+      .find("#8")
+      .click();
     /**
-      [][][x]
+      [ ][ ][x]
       [o][o][x]
-      [][][x]
+      [ ][ ][x]
      */
     // Should declare X the winner
     cy.get(".status").should("contain", "Winner: X");
