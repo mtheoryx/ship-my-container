@@ -1,3 +1,6 @@
+import chaiColors from "chai-colors";
+chai.use(chaiColors);
+
 describe("First app visit", () => {
   it("Visits the app", () => {
     cy.visit("localhost:3000");
@@ -25,6 +28,8 @@ describe("First app visit", () => {
     targetSquare.should("have.text", "X");
     // Assert that the thing does not have an O
     targetSquare.should("not.have.text", "O");
+    // The text of the X should be red
+    targetSquare.should("have.css", "color").and("eq", "rgb(102, 51, 153)");
   });
 });
 describe("Taking turns", () => {
