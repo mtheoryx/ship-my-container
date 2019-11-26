@@ -7,7 +7,7 @@ describe("First app visit", () => {
   });
   it("Should have no selected squares", () => {
     cy.get("#game-board")
-      .find(".square")
+      .find("button")
       .each(square => {
         cy.get(square).should("have.text", "");
       });
