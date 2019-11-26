@@ -13,8 +13,8 @@ describe("First app visit", () => {
       });
   });
   it("should be waiting on X for the move", () => {
-    cy.get(".status").should("not.contain", "O");
-    cy.get(".status").should("contain", "X");
+    cy.get("#turn-order").should("not.contain", "O");
+    cy.get("#turn-order").should("contain", "X");
   });
   it("should make a move as X, and see a square marked with X", () => {
     /**
@@ -39,8 +39,8 @@ describe("Taking turns", () => {
     [ ][ ][ ]
     */
   it("Should be expecting player 0 to make a move", () => {
-    cy.get(".status").should("not.contain", "X");
-    cy.get(".status").should("contain", "O");
+    cy.get("#turn-order").should("not.contain", "X");
+    cy.get("#turn-order").should("contain", "O");
   });
   it("Should click the middle square as O, and get marked", () => {
     /**
@@ -59,8 +59,8 @@ describe("Taking turns", () => {
       .should("not.have.text", "X");
   });
   it("Should now see player X is next in line", () => {
-    cy.get(".status").should("not.contain", "O");
-    cy.get(".status").should("contain", "X");
+    cy.get("#turn-order").should("not.contain", "O");
+    cy.get("#turn-order").should("contain", "X");
   });
 });
 
@@ -97,7 +97,7 @@ describe("Winning the game", () => {
       [ ][ ][x]
      */
     // Should declare X the winner
-    cy.get(".status").should("contain", "Winner: X");
+    cy.get("#winner").should("contain", "Winner: X");
   });
 });
 xdescribe("Restart the game", () => {});

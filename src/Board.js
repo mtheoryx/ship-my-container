@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import Square from "./Square";
 import calculateWinner from "./win-condition";
 
 const Winner = ({ squares }) => {
   const hasWinner = calculateWinner(squares);
-  return hasWinner && <div className="status">Winner: {hasWinner}</div>;
+  return hasWinner && <div id="winner">Winner: {hasWinner}</div>;
 };
+
+const VerticalSection = styled.div`
+  margin-bottom: 10px;
+`;
 
 const Board = () => {
   // Do state stuff here
@@ -30,10 +35,12 @@ const Board = () => {
 
   return (
     <div id="game-board">
-      <div className="status">
+      <VerticalSection>
         <Winner squares={squares} />
-      </div>
-      <div className="status">Next Player: {xIsNext ? "X" : "O"}</div>
+      </VerticalSection>
+      <VerticalSection id="turn-order">
+        Next Player: {xIsNext ? "X" : "O"}
+      </VerticalSection>
       <div className="board-row">
         <Square id="0" value={squares[0]} onClick={() => handleClick(0)} />
         <Square id="1" value={squares[1]} onClick={() => handleClick(1)} />
