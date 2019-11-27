@@ -1,16 +1,19 @@
 import React from "react";
+import { createGlobalStyle } from "styled-components";
 import Board from "./Board";
 // @TODO: Implement move history
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+  }
+`;
+
 const Game = () => (
   <>
-    <div>
-      <Board />
-    </div>
-    <div className="game-info">
-      <p>Game Info</p>
-      <div>{/* status */}</div>
-      <ol>{/* TODO */}</ol>
-    </div>
+    <GlobalStyle />
+    <Board />
   </>
 );
 
